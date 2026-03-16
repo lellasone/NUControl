@@ -5,7 +5,7 @@
 #include "driver.hpp"
 #include "helpers.hpp"
 #include "errors.hpp"
-#include "discrete_filter.hpp"
+// #include "discrete_filter.hpp"
 
 /// @brief Inline current sensor placed on a phase of a motor
 class InlineCurrentSensor
