@@ -8,7 +8,7 @@
 TeensyTimerTool::PeriodicTimer timer_(TeensyTimerTool::TCK);
 
 constexpr float CURR_GAIN = 5.f; // Amps / Volt
-constexpr int ADC_RES = 12;
+constexpr int ADC_RES = 10;
 
 InlineCurrentSensor Current_Phase_B{A8, CURR_GAIN, ADC_RES};
 InlineCurrentSensor Current_Phase_C{A9, CURR_GAIN, ADC_RES};
@@ -26,6 +26,7 @@ I2CEncoder Encoder{19, 18, 0x36, 0x0E, 0x0F};
 BrushlessController controller_{wrist_motor, GateDriver, Current_Sensors, Encoder};
 
 
+
 void setup()
 {
   while (!Serial) {}
@@ -34,6 +35,10 @@ void setup()
   analogReadAveraging(1);
 
   Serial.println("Hell yeah!");
+
+  controller_.set_feedback_state(false);
+  controller_.set_back_emf_comp_state(false);
+
 
   if (!controller_.init_components()) {
     Serial.println("Motor controller component failed to init");
@@ -50,9 +55,9 @@ void setup()
   delay(1000);
 
   controller_.set_control_mode(ControllerMode::TORQUE);
-  controller_.set_target(0.f);
+  controller_.set_target(0.01f);
 
-  controller_.start_control(100);
+  controller_.start_control(1000);
 
 }
 

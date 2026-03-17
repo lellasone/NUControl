@@ -25,6 +25,7 @@ void loop()
   uint16_t raw   = encoder.read_raw();
   float    angle = encoder.read();
 
+  int tic = 
   Serial.print("raw: ");
   Serial.print(raw);
   Serial.print("\tangle (rad): ");

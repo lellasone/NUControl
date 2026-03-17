@@ -5,7 +5,7 @@
 #include "driver.hpp"
 #include "helpers.hpp"
 #include "errors.hpp"
-// #include "discrete_filter.hpp"
+#include "discrete_filter.hpp"
 
 /// @brief Inline current sensor placed on a phase of a motor
 class InlineCurrentSensor
@@ -49,9 +49,11 @@ public:
 
   float read() const
   {
-    auto amps = gain_ * (analogRead(pin_) * ADC_GAIN_ - offset_);
+    float adc_reading = analogRead(pin_);
+    auto amps = gain_ * (adc_reading * ADC_GAIN_ - offset_);
     if (fabs(amps) > SATURATE_READING_) {
-      Serial.println("Current Sensor Saturated!");
+      Serial.print(adc_reading);
+      Serial.println("Current Sensor Saturated! {}");
       if (fabs(amps) > MAX_READING_) {
         error_callback(ErrorCodes::CURRENT_SENSE_OVER_LIMIT);
       }

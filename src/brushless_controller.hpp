@@ -420,17 +420,17 @@ private:
   PhaseValues<Butterworth2nd<float>> feedback_voltage_filters_;
 
   /// \note: General cutoff frequency
-  float filter_cutoff_freq_hz_ = 2500.f;
+  float filter_cutoff_freq_hz_ = 250.f;
 
   /// \note: Current sensor specific cutoff
-  float filter_cutoff_freq_hz_current_ = 2500.f;
+  float filter_cutoff_freq_hz_current_ = 250.f;
 
   /// \note: Velocity estimator specific cutoff
   float filter_cutoff_freq_hz_vel_ = 100.f;
 
   float filter_cutoff_freq_hz_fb_ = 500.f;
 
-  float calibration_scan_speed_ = 0.25 * PI;
+  float calibration_scan_speed_ = 0.1 * PI;
   float calibration_scan_distance_ = PI;
   int calibration_dir_ = 1;
 
