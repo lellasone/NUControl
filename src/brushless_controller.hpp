@@ -266,6 +266,9 @@ public:
   float get_encoder_angle() const { return encoder_angle.get_full_angle(); }
   float get_encoder_radians() const { return encoder_angle.get_angle(); }
   float get_shaft_velocity() const { return shaft_velocity_; }
+  float get_Iq() const { return quaddirect_currents_.q; }
+  float get_target() const { return target_; }
+  float get_kT() const { return motor_.kT; }
 
   void set_encoder_direction(int dir) {
     if(dir == 1){ pos_sensor_dir_= 1; return;}
