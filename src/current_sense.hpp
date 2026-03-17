@@ -52,8 +52,8 @@ public:
     float adc_reading = analogRead(pin_);
     auto amps = gain_ * (adc_reading * ADC_GAIN_ - offset_);
     if (fabs(amps) > SATURATE_READING_) {
-      Serial.print(adc_reading);
-      Serial.println("Current Sensor Saturated! {}");
+      // Serial.print(adc_reading);
+      // Serial.println("Current Sensor Saturated! {}");
       if (fabs(amps) > MAX_READING_) {
         error_callback(ErrorCodes::CURRENT_SENSE_OVER_LIMIT);
       }

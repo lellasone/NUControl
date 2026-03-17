@@ -55,9 +55,9 @@ void setup()
   delay(1000);
 
   controller_.set_control_mode(ControllerMode::TORQUE);
-  controller_.set_target(0.01f);
+  controller_.set_target(0.05f);
 
-  controller_.start_control(1000);
+  controller_.start_control(500);
 
 }
 

@@ -28,17 +28,21 @@ public:
     max_read_(1 << res)
   {
     Wire.begin();
+    Wire.setClock(400000); // 400 kHz I2C clock speed
   }
 
   /// @brief read the encoder
   /// @returns the angle is radians (0, 2PI)
   float read()
   {
+    digitalWrite(14, HIGH);
     auto read = read_raw();
     if(glitch_filter_enable && (read == 0 || read == (uint16_t)(max_read_ - 1)))
     {
       return -1.f;
     }
+    digitalWrite(14, LOW);
+    Serial.println(read);
     return static_cast<float>(read) / static_cast<float>(max_read_ - 1) * _2_PI_;
   }
 
