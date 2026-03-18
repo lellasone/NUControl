@@ -21,7 +21,11 @@ constexpr float DRIVER_VOLTAGE = 24.f;
 BrushlessDriver GateDriver{{2, 3, 4}, 1, PWM_FREQ, PWM_RES, DRIVER_VOLTAGE};
 
 // AS5600: device address 0x36, angle high byte 0x0E, low byte 0x0F
-I2CEncoder Encoder{19, 18, 0x36, 0x0E, 0x0F};
+// I2CEncoder Encoder{19, 18, 0x36, 0x0E, 0x0F};
+
+
+const uint16_t EncoderReadCmd = (0b11 << 10) | 0x3FFF;
+SPIEncoder Encoder{EncoderReadCmd, SPI, 10};
 
 BrushlessController controller_{wrist_motor, GateDriver, Current_Sensors, Encoder};
 
@@ -57,7 +61,7 @@ void setup()
   controller_.set_control_mode(ControllerMode::TORQUE);
   controller_.set_target(0.05f);
 
-  controller_.start_control(500);
+  controller_.start_control(100);
 
 }
 

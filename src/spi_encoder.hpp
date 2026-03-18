@@ -38,6 +38,7 @@ public:
     {
       return -1.f;
     }
+    // Serial.println(static_cast<float>(read) / static_cast<float>(max_read_ - 1) * _2_PI_);
     return static_cast<float>(read) / static_cast<float>(max_read_ - 1) * _2_PI_;
   }
 
