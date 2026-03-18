@@ -13,31 +13,31 @@ constexpr int ADC_RES = 10;
 // InlineCurrentSensor Current_Phase_C{A3, CURR_GAIN, ADC_RES};
 // InlineCurrentSensor Current_Phase_B{A4, CURR_GAIN, ADC_RES};
 // InlineCurrentSensor Current_Phase_C{A5, CURR_GAIN, ADC_RES};
-InlineCurrentSensor Current_Phase_B{A8, CURR_GAIN, ADC_RES};
-InlineCurrentSensor Current_Phase_C{A9, CURR_GAIN, ADC_RES};
-// InlineCurrentSensor Current_Phase_B{A9, CURR_GAIN, ADC_RES};
-// InlineCurrentSensor Current_Phase_C{A8, CURR_GAIN, ADC_RES};
+// InlineCurrentSensor Current_Phase_B{A8, CURR_GAIN, ADC_RES};
+// InlineCurrentSensor Current_Phase_C{A9, CURR_GAIN, ADC_RES};
+InlineCurrentSensor Current_Phase_B{A9, CURR_GAIN, ADC_RES};
+InlineCurrentSensor Current_Phase_C{A8, CURR_GAIN, ADC_RES};
 InlineCurrentSensorPackage Current_Sensors{{&Current_Phase_C, &Current_Phase_B}};
 
 constexpr float PWM_FREQ = 20000.f;
 constexpr int PWM_RES = 12;
 constexpr float DRIVER_VOLTAGE = 24.f;
 
-const uint16_t EncoderReadCmd = (0b11 << 10) | 0x3FFF; // James changed 14 to 10 here
+const uint16_t EncoderReadCmd = (0b11 << 14) | 0x3FFF; // James changed 14 to 10 here
 SPIEncoder Encoder{EncoderReadCmd, SPI, 10};
 // SPIEncoder Encoder{EncoderReadCmd, SPI1, 0};
 // SPIEncoder Encoder{EncoderReadCmd, SPI2, 36};
 
 // BrushlessDriver GateDriver{{33, 29, 39}, 38, PWM_FREQ, PWM_RES, DRIVER_VOLTAGE};
-BrushlessDriver GateDriver{{2, 3, 4}, 1, PWM_FREQ, PWM_RES, DRIVER_VOLTAGE};
+BrushlessDriver GateDriver{{5, 4, 3}, 2, PWM_FREQ, PWM_RES, DRIVER_VOLTAGE};
 // BrushlessDriver GateDriver{{9, 8, 7}, 6, PWM_FREQ, PWM_RES, DRIVER_VOLTAGE};
 // 
 // MotorParameters U2523{7, 0.72487f, 510.f * 1e-6f, 3.f, 8.f, 0.025f, 0.001f};
 // MotorParameters wrist_motor{8, 0.19f, 6.9f * 1e-6f, 1.f, 5.0f, 0.004f, 0.004f}; // geared wrist motor. 
 
 
-BrushlessController controller_{wrist_motor, GateDriver, Current_Sensors, Encoder};
-// BrushlessController controller_{EC45_Flat, GateDriver, Current_Sensors, Encoder};
+// BrushlessController controller_{wrist_motor, GateDriver, Current_Sensors, Encoder};
+BrushlessController controller_{EC45_Flat, GateDriver, Current_Sensors, Encoder};
 
 CoggingMapper<100> mapper_(controller_);
 
@@ -117,11 +117,11 @@ void setup()
   controller_.print_calibration();
   delay(1000);
 
-  controller_.set_feedforward_state(false);
+  controller_.set_feedforward_state(true);
   controller_.set_control_mode(ControllerMode::TORQUE);
   controller_.set_position_filter({{0.25f, 0.25f, 0.25f, 0.25f}, {}});
   controller_.set_velocity_filter(vel_filter_200_);
-  controller_.set_target(0.1f);
+  controller_.set_target(0.01f);
   controller_.set_feedback_state(true);
   // controller_.enable_anticog(std::function<PhaseValues<float>(float)>(torque_cog));
 
